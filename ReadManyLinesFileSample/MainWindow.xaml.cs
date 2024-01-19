@@ -1,6 +1,9 @@
-﻿using System.Threading;
+﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ReadManyLinesFileSample
 {
@@ -87,6 +90,34 @@ namespace ReadManyLinesFileSample
                 fileThread.ReadFileWithMultipleThread(2);
             });
             isWorking = false;
+        }
+
+        private void T1Button_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+
+            int intTag = int.Parse(btn.Tag.ToString());
+            string filename = "LTE_DL_10MHz_16QAM_QPSK.wf";
+
+            FileReaderUtil.ShowConsoleWriteLine($"Start to Read All of File [{intTag}] method");
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            switch (intTag)
+            {
+                case 1: FileReaderMethodTest.T1(filename); break;
+                case 2: FileReaderMethodTest.T2(filename); break;
+                case 3: FileReaderMethodTest.T3(filename); break;
+                case 4: FileReaderMethodTest.T4(filename); break;
+                case 5: FileReaderMethodTest.T5(filename); break;
+                case 6: FileReaderMethodTest.T6(filename); break;
+                case 7: FileReaderMethodTest.T7(filename); break;
+                case 8: FileReaderMethodTest.T8(filename); break;
+                case 9: FileReaderMethodTest.T9(filename); break;  
+            }
+
+            TimeSpan elapsedTime = stopwatch.Elapsed;
+            FileReaderUtil.ShowConsoleWriteLine($"End to Read All of File [{intTag}] method, ElaseTime = {elapsedTime}");
         }
     }
 }

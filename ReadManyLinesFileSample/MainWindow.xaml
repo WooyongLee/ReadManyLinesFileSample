@@ -7,9 +7,29 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5"> 
-            <Button Click="Button1_Click" Width="130" Height="30" Content="Task" Margin="5"></Button>
-            <Button Click="Button2_Click" Width="130" Height="30" Content="Thread" Margin="5"></Button>
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="5"> 
+                <Button Click="Button1_Click" Width="130" Height="30" Content="Task" Margin="5"></Button>
+                <Button Click="Button2_Click" Width="130" Height="30" Content="Thread" Margin="5"></Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Width" Value="30"></Setter>
+                        <Setter Property="Height" Value="30"></Setter>
+                        <Setter Property="Margin" Value="3"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="T1Button" Tag="1" Content="T1" Click="T1Button_Click"></Button>
+                <Button x:Name="T2Button" Tag="2" Content="T2" Click="T1Button_Click"></Button>
+                <Button x:Name="T3Button" Tag="3" Content="T3" Click="T1Button_Click"></Button>
+                <Button x:Name="T4Button" Tag="4" Content="T4" Click="T1Button_Click"></Button>
+                <Button x:Name="T5Button" Tag="5" Content="T5" Click="T1Button_Click"></Button>
+                <Button x:Name="T6Button" Tag="6" Content="T6" Click="T1Button_Click"></Button>
+                <Button x:Name="T7Button" Tag="7" Content="T7" Click="T1Button_Click"></Button>
+                <Button x:Name="T8Button" Tag="8" Content="T8" Click="T1Button_Click"></Button>
+                <Button x:Name="T9Button" Tag="9" Content="T9" Click="T1Button_Click"></Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

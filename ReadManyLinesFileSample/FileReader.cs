@@ -426,4 +426,132 @@ namespace ReadManyLinesFileSample
 
         public int? Marker2 { get; set; } = null;
     }
+
+    public class FileReaderMethodTest
+    {
+        // Reading the entire file into a single string using a StreamReader ReadToEnd() method
+        public static void T1(string fileName)
+        {
+            char[] Separator = "\r\n".ToCharArray();
+            
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                string s = sr.ReadToEnd();
+
+                string[] split_s = s.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                //you then have to process the string
+            }
+        }
+
+        // Reading the entire file into a single StringBuilder object using a StreamReader ReadToEnd() method
+        public static void T2(string fileName)
+        {
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(sr.ReadToEnd());
+                //you then have to process the string
+            }
+        }
+
+        // Reading each line into a string using StreamReader ReadLine() method
+        public static void T3(string fileName)
+        {
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                string s = String.Empty;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    //we're just testing read speeds
+                }
+            }
+        }
+
+        // Reading each line into a string using a BufferedStream
+        public static void T4(string fileName)
+        {
+            using (FileStream fs = File.Open(fileName, FileMode.Open))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    //we're just testing read speeds    
+                }
+            }
+        }
+
+        // Reading each line into a string using a BufferedStream with a preset buffer size equal to the size of the biggest line
+        public static void T5(string fileName)
+        {
+            char[] g = new char[1024];
+            using (FileStream fs = File.Open(fileName, FileMode.Open ))
+            using (BufferedStream bs = new BufferedStream(fs,
+                System.Text.ASCIIEncoding.Unicode.GetByteCount(g)))
+            using (StreamReader sr = new StreamReader(bs))
+            {
+                string s;
+                while ((s = sr.ReadLine()) != null)
+                {
+                    //we're just testing read speeds
+                }
+            }
+        }
+
+        // Reading each line into a StringBuilder object using StreamReader ReadLine() method
+        public static void T6(string fileName)
+        {
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                StringBuilder sb = new StringBuilder();
+                while (sb.Append(sr.ReadLine()).Length > 0)
+                {
+                    //we're just testing read speeds
+                    sb.Clear();
+                }
+            }
+        }
+
+        // Reading each line into a StringBuilder object with its size preset and equal to the size of the biggest line
+        public static void T7(string fileName)
+        {
+            char[] g = new char[1024];
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                StringBuilder sb = new StringBuilder(g.Length);
+                while (sb.Append(sr.ReadLine()).Length > 0)
+                {
+                    //we're just testing read speeds
+                    sb.Clear();
+                }
+            }
+        }
+
+        // Reading each line into a pre-allocated string array object
+        public static void T8(string fileName)
+        {
+            int MAX = 10000000;
+            string[] AllLines = new string[MAX];
+            using (StreamReader sr = File.OpenText(fileName))
+            {
+                int x = 0;
+                while (!sr.EndOfStream)
+                {
+                    //we're just testing read speeds
+                    AllLines[x] = sr.ReadLine();
+                    x += 1;
+                }
+            }
+        }
+
+        // Reading the entire file into a string array object using the .Net ReadAllLines() method.
+        public static void T9(string fileName)
+        {
+            int MAX = 10000000;
+            var AllLines = new string[MAX];
+            AllLines = File.ReadAllLines(fileName);
+        }
+    }
 }

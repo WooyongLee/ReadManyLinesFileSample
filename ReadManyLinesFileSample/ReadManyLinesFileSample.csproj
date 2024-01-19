@@ -115,8 +115,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="SampleFiles\5G_KT_QPSK_273RB_wfm.wf" />
-    <None Include="SampleFiles\LTE_DL_10MHz_64QAM.wf" />
-    <None Include="SampleFiles\LTE_DL_20MHz_64QAM.wf" />
+    <None Include="SampleFiles\LTE_DL_10MHz_16QAM_QPSK.wf" />
+    <None Include="SampleFiles\LTE_DL_20MHz_16QAM_QPSK.wf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
