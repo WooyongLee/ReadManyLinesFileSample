@@ -114,6 +114,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="SampleFiles\5G_KT_QPSK_273RB_wfm.wf" />
+    <None Include="SampleFiles\5G_KT_QPSK_273RB_wfm_Max16000.wf" />
+    <None Include="SampleFiles\LTE_DL_10MHz_64QAM.wf" />
+    <None Include="SampleFiles\LTE_DL_20MHz_64QAM.wf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

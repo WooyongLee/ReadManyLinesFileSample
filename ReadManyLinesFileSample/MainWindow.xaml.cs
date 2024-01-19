@@ -36,6 +36,9 @@ namespace ReadManyLinesFileSample
         {
             FileReaderTask fileReader = new FileReaderTask();
 
+            // 240 만 줄의 파일에 대해서 await Task 할 경우 약 6초
+
+            // fileReader.SimpleTask();
             await fileReader.SimpleTask();
 
             //for (int i = 1; i <= 10; i++)
@@ -49,15 +52,23 @@ namespace ReadManyLinesFileSample
             await ReadFileTasks();
         }
 
+        bool isWorking = false;
         private async void Button2_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() =>
+            // 240 만 줄의 파일에 대해서 Thread 로는 약 1~1.5초 정도
+            if (isWorking)
             {
+                MessageBox.Show("Already Working");
+                return;
+            }
+
+            isWorking = true;
+            await Task.Factory.StartNew(() => { 
                 FileReaderThread fileThread = new FileReaderThread();
 
                 fileThread.ReadFileWithMultipleThread(2);
             });
-            int a = 9;
+            isWorking = false;
         }
     }
 }
