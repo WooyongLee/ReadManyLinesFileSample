@@ -43,11 +43,38 @@ namespace ReadManyLinesFileSample
         int printLineCount = 50000;
         List<string> readLines = new List<string>();
 
+        public void NotTask()
+        {
+            string filePath = "5G_KT_QPSK_273RB_wfm.wf";
+
+            FileReaderUtil.ShowConsoleWriteLine("Start to Read All of File at NotTask()");
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                allOfLines = File.ReadLines(filePath).LongCount();
+                string strLine = "";
+                var lineNum = 0;
+
+                FileReaderUtil.ShowConsoleWriteLine("Start to check line Num");
+                while ((strLine = reader.ReadLine()) != null)
+                {
+                    lineNum++;
+                }
+                FileReaderUtil.ShowConsoleWriteLine($"lineNum = {lineNum}");
+            }
+
+            stopwatch.Stop();
+            TimeSpan elapsedTime = stopwatch.Elapsed;
+            FileReaderUtil.ShowConsoleWriteLine($"End to Read All of File at NotTask(), ElaseTime = {elapsedTime}");
+        }
+
         public async Task SimpleTask()
         {
             string filePath = "5G_KT_QPSK_273RB_wfm.wf";
 
-            FileReaderUtil.ShowConsoleWriteLine("Start to Read All of File");
+            FileReaderUtil.ShowConsoleWriteLine("Start to Read All of File at SimpleTask()");
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -67,7 +94,7 @@ namespace ReadManyLinesFileSample
 
             stopwatch.Stop();
             TimeSpan elapsedTime = stopwatch.Elapsed;
-            FileReaderUtil.ShowConsoleWriteLine($"End to Read All of File, ElaseTime = {elapsedTime}");
+            FileReaderUtil.ShowConsoleWriteLine($"End to Read All of File at SimpleTask(), ElaseTime = {elapsedTime}");
         }
 
         public async Task ReadFileWithMultipleTasks(int numberOfTasks)

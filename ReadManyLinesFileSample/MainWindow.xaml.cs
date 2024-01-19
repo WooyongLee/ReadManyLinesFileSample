@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ReadManyLinesFileSample
 {
@@ -25,11 +13,37 @@ namespace ReadManyLinesFileSample
         {
             InitializeComponent();
 
-            Thread thread = new Thread(new ThreadStart(() => { while (true) { Thread.Sleep(1000); } }));
+            Thread thread = new Thread(new ThreadStart(() => { FileThreadFunc(); }));
             Thread thread2 = new Thread(new ThreadStart(() => { while (true) { Thread.Sleep(1000); } }));
             Thread thread3 = new Thread(new ThreadStart(() => { while (true) { Thread.Sleep(1000); } }));
             Thread thread4 = new Thread(new ThreadStart(() => { while (true) { Thread.Sleep(1000); } }));
             Thread thread5 = new Thread(new ThreadStart(() => { while (true) { Thread.Sleep(1000); } }));
+
+            thread.Start();
+        }
+
+        // 파일을 읽는 별도의 스레드를 제어하는 플래그
+        bool isReadFileRequested = false;
+
+        // 파일을 읽는 별도의 스레드
+        // UI에서 요청이 있을 때, 해당 플래그의 활성화 여부에 따라 파일 읽기를 진행
+        public void FileThreadFunc()
+        {
+            FileReaderTask fileReader = new FileReaderTask();
+
+            while (true)
+            {
+                if (isReadFileRequested)
+                {
+                    fileReader.NotTask();
+                    isReadFileRequested = false;
+                }
+
+                else
+                {
+                    Thread.Sleep(10);
+                }
+            }
         }
 
         public async Task ReadFileTasks()
@@ -37,6 +51,8 @@ namespace ReadManyLinesFileSample
             FileReaderTask fileReader = new FileReaderTask();
 
             // 240 만 줄의 파일에 대해서 await Task 할 경우 약 6초
+
+            fileReader.NotTask();
 
             // fileReader.SimpleTask();
             await fileReader.SimpleTask();
@@ -49,7 +65,8 @@ namespace ReadManyLinesFileSample
 
         private async void Button1_Click(object sender, RoutedEventArgs e)
         {
-            await ReadFileTasks();
+            isReadFileRequested = true;
+            // await ReadFileTasks();
         }
 
         bool isWorking = false;
@@ -63,7 +80,8 @@ namespace ReadManyLinesFileSample
             }
 
             isWorking = true;
-            await Task.Factory.StartNew(() => { 
+            await Task.Factory.StartNew(() =>
+            {
                 FileReaderThread fileThread = new FileReaderThread();
 
                 fileThread.ReadFileWithMultipleThread(2);
